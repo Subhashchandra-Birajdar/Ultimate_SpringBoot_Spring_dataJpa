@@ -12,6 +12,4 @@ public class SpringbootAppApplication {
 		MyFirstClass bean = ctx.getBean(MyFirstClass.class);
 		System.out.println(bean.sayHello());
 	}
-
-
 }
