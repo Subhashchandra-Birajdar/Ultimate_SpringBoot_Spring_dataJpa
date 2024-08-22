@@ -10,7 +10,7 @@ public class MyFirstService {
     private MyFirstClass myFirstClass;
 
     @Autowired // it is optinal on constructor
-    public MyFirstService(@Qualifier("bean2") MyFirstClass myFirstClass) {
+    public MyFirstService(MyFirstClass myFirstClass) {
         //did constructor based dependency, autowire is optional becuase injecting only one bean
          this.myFirstClass = myFirstClass;
     }
