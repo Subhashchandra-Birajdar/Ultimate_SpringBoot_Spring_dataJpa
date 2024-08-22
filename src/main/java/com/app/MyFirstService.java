@@ -28,5 +28,7 @@ public class MyFirstService {
 
     public String tellStory() {  return "The Dependency injection : "+myFirstClass.sayHello();	}
 
+    public String getreadproperty() { return environment.getProperty("my.custom.property"); }
+
 }
 

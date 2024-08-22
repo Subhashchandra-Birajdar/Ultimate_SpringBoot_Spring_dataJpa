@@ -13,6 +13,7 @@ public class SpringbootAppApplication {
 		System.out.println(myFirstClass.tellStory());
 		System.out.println(myFirstClass.getJavaVersion());
 		System.out.println(myFirstClass.getOsName());
+		System.out.println(myFirstClass.getreadproperty());
 
 
 	}
