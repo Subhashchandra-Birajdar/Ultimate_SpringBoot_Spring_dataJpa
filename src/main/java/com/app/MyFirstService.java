@@ -3,11 +3,14 @@ package com.app;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.stereotype.Service;
 
 @Service
-@PropertySource("classpath:custom.properties")
-// this is added, so if you want to more custom properties then you can add @PropertySources({ @PropertySource..})
+@PropertySources({
+        @PropertySource("classpath:custom.properties"),
+        @PropertySource("classpath:custom-1.properties")
+})
 public class MyFirstService {
 
     private final MyFirstClass myFirstClass;
@@ -18,16 +21,24 @@ public class MyFirstService {
     @Value("123")
     private Integer  customPropertyInt;
 
-    public String getCustompropertyfromAnotherField() {
-        return custompropertyfromAnotherField;
-    }
+    @Value("${my.prop1}")
+    private String custompropertyfromAnotherField2;
 
     public String getCustomProperty() {
         return customProperty;
     }
 
+    public String getCustompropertyfromAnotherField() {
+        return custompropertyfromAnotherField;
+    }
+
     public Integer getCustomPropertyInt() {
         return customPropertyInt;
+    }
+
+
+    public String getCustompropertyfromAnotherField2() {
+        return custompropertyfromAnotherField2;
     }
 
     public MyFirstService(@Qualifier("mySecondBean")MyFirstClass myFirstClass) {
@@ -38,3 +49,4 @@ public class MyFirstService {
         return "The Dependency injection : "+myFirstClass.sayHello();
     }
 }
+

@@ -14,6 +14,7 @@ public class SpringbootAppApplication {
 		System.out.println(myFirstClass.getCustomProperty());
 		System.out.println(myFirstClass.getCustompropertyfromAnotherField());
 		System.out.println(myFirstClass.getCustomPropertyInt());
+		System.out.println(myFirstClass.getCustompropertyfromAnotherField2());
 
 	}
 }
