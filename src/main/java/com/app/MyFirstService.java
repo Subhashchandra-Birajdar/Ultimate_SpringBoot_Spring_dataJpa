@@ -6,14 +6,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MyFirstService {
-    //inject the bean
+
+    @Autowired
     private MyFirstClass myFirstClass;
 
-    @Autowired // it is optinal on constructor
-    public MyFirstService(MyFirstClass myFirstClass) {
-        //did constructor based dependency, autowire is optional becuase injecting only one bean
-         this.myFirstClass = myFirstClass;
-    }
     public String tellStory() {
         return "The Dependency injection : "+myFirstClass.sayHello();
     }
