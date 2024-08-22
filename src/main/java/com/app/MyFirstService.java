@@ -7,9 +7,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class MyFirstService {
 
-    @Autowired
-    @Qualifier("myThirdClass")
+
     private MyFirstClass myFirstClass;
+
+    @Autowired
+    public void injectDependency(@Qualifier("mySecondBean")MyFirstClass myFirstClass){
+        this.myFirstClass = myFirstClass;
+    }
 
     public String tellStory() {
         return "The Dependency injection : "+myFirstClass.sayHello();
