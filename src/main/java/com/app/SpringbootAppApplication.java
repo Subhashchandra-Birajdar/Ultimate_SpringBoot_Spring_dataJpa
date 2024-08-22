@@ -9,9 +9,8 @@ public class SpringbootAppApplication {
 
 	public static void main(String[] args) {
 		var ctx = SpringApplication.run(SpringbootAppApplication.class, args);
-		MyFirstClass bean = ctx.getBean("myBean",MyFirstClass.class);
-		// here not created manual instance,bean naming myBean
-		System.out.println(bean.sayHello());
+		MyFirstService myFirstClass = ctx.getBean(MyFirstService.class);
+		System.out.println(myFirstClass.tellStory());
 
 	}
 }

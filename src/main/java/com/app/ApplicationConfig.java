@@ -8,6 +8,8 @@ public class ApplicationConfig {
 
     @Bean("myBean")   // <---- Bean naming performed
     public MyFirstClass myFirstClass() {
-        return new MyFirstClass();
+        return new MyFirstClass("first bean");
     }
+
+
 }
