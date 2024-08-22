@@ -11,8 +11,10 @@ public class MyFirstService {
     private MyFirstClass myFirstClass;
 
     @Autowired
-    public void injectDependency(@Qualifier("mySecondBean")MyFirstClass myFirstClass){
+    public void setMyFirstClass(MyFirstClass myFirstClass) {
+        // here we use @Qualifier & give bean name
         this.myFirstClass = myFirstClass;
+        // but in spring boot 3 it will take first bean by default
     }
 
     public String tellStory() {
