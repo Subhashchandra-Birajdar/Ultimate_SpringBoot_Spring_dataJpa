@@ -11,10 +11,9 @@ public class SpringbootAppApplication {
 		var ctx = SpringApplication.run(SpringbootAppApplication.class, args);
 		MyFirstService myFirstClass = ctx.getBean(MyFirstService.class);
 		System.out.println(myFirstClass.tellStory());
-		System.out.println(myFirstClass.getJavaVersion());
-		System.out.println(myFirstClass.getOsName());
-		System.out.println(myFirstClass.getreadproperty());
-
+		System.out.println(myFirstClass.getCustomProperty());
+		System.out.println(myFirstClass.getCustompropertyfromAnotherField());
+		System.out.println(myFirstClass.getCustomPropertyInt());
 
 	}
 }

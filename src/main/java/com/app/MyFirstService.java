@@ -1,34 +1,40 @@
 package com.app;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @Service
+@PropertySource("classpath:custom.properties")
+// this is added, so if you want to more custom properties then you can add @PropertySources({ @PropertySource..})
 public class MyFirstService {
 
+    private final MyFirstClass myFirstClass;
+    @Value("Hello Java")
+    private String customProperty;
+    @Value("${my.prop}")
+    private String custompropertyfromAnotherField;
+    @Value("123")
+    private Integer  customPropertyInt;
 
-    private MyFirstClass myFirstClass;
-    private Environment environment;
+    public String getCustompropertyfromAnotherField() {
+        return custompropertyfromAnotherField;
+    }
 
-    @Autowired
-    public void setMyFirstClass(MyFirstClass myFirstClass) {
-        this.myFirstClass = myFirstClass;  }
+    public String getCustomProperty() {
+        return customProperty;
+    }
 
+    public Integer getCustomPropertyInt() {
+        return customPropertyInt;
+    }
 
-    @Autowired
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;  }
+    public MyFirstService(@Qualifier("mySecondBean")MyFirstClass myFirstClass) {
+        this.myFirstClass = myFirstClass;
+    }
 
-    public String getJavaVersion() {
-        return environment.getProperty("java.version");	}
-
-    public String getOsName() {	return environment.getProperty("os.version");	}
-
-    public String tellStory() {  return "The Dependency injection : "+myFirstClass.sayHello();	}
-
-    public String getreadproperty() { return environment.getProperty("my.custom.property"); }
-
+    public String tellStory() {
+        return "The Dependency injection : "+myFirstClass.sayHello();
+    }
 }
-
