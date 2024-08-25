@@ -41,7 +41,7 @@ public class MyFirstService {
         return custompropertyfromAnotherField2;
     }
 
-    public MyFirstService(@Qualifier("mySecondBean")MyFirstClass myFirstClass) {
+    public MyFirstService(@Qualifier("myFirstBean")MyFirstClass myFirstClass) {
         this.myFirstClass = myFirstClass;
     }
 
