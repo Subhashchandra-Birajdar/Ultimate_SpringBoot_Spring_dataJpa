@@ -43,7 +43,15 @@ public class FirstController {
         return " the orderRecord : " +order.toString();
     }
 
+    @GetMapping("/hello/{check}")
+    public String pathVar(@PathVariable("check")String str ){
+        return " the string is : "+str;
+    } // http://localhost:8080/hello/anystring
 
+    @GetMapping("/hello")
+    public String requestParam(@RequestParam("check")String str ){
+        return " the string is : "+str;
+    } // http://localhost:8080/hello?check=anystring
 
 
 
