@@ -33,5 +33,18 @@ public class FirstController {
     }
 
 
+    @PostMapping("/Order_Object")
+    public String orderdisplay(@RequestBody Order order){
+        return " the order is : "+ order.toString();
+    }
+
+    @PostMapping("/save/post-orderRecord")
+    public String save(@RequestBody OrderRecord order){
+        return " the orderRecord : " +order.toString();
+    }
+
+
+
+
 
 }
