@@ -1,11 +1,11 @@
-package com.app;
+package com.app.controller;
 
+import com.app.entity.Student;
 import com.app.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class FirstController {

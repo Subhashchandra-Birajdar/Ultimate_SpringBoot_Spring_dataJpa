@@ -1,4 +1,4 @@
-package com.app;
+package com.app.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,5 +26,14 @@ public class Student {
     private String email;
 
     private int age;
+
+    @OneToOne(mappedBy = "student1",cascade = CascadeType.ALL)
+    private StudentProfile studentProfile;
+
+    @ManyToOne
+    @JoinColumn(name = "school_id"
+    )
+    private School school;
+
 }
 

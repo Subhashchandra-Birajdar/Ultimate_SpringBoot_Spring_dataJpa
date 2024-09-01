@@ -1,19 +1,35 @@
+# Server configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /myapp
+
+# Spring DataSource configuration for MySQL
 spring:
+  application:
+    name: Springboot
   datasource:
-    url: jdbc:mysql://localhost:3306/crud_demo
+    url: jdbc:mysql://localhost:3306/crud_demo?useSSL=false&serverTimezone=UTC
     username: root
     password: sb@12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 30000
+
+# JPA/Hibernate configuration
   jpa:
+    properties:
+      format_sql: true
     hibernate:
-      #dialect: org.hibernate.dialect.MySQL5InnoDbDialec
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-      format_sql: true
-    database: mysql
+
     database-platform: org.hibernate.dialect.MySQLDialect
-  application:
-      name: SpringBoot - USER_SERVICE
 
-
+# Logging configuration
+logging:
+  level:
+    root: INFO
