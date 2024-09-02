@@ -38,5 +38,7 @@ public class Student {
     // student object doesn't need to serialize the parent which is in our case school
     private School school;
 
+    public Student(String firstname, String lastname, String email, int age) {
+    }
 }
 
