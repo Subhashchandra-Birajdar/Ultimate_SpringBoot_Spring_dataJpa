@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import com.app.dto.StudentDto;
+import com.app.entity.School;
 import com.app.entity.Student;
 import com.app.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class FirstController {
+public class StudentController {
 
     @Autowired
     private StudentRepository studentRepository ;
@@ -20,9 +22,24 @@ public class FirstController {
     }      // what is the context path '/' ?
 
     @PostMapping("/students/create")
-    public Student postMethod(@RequestBody Student student){
-      return studentRepository.save(student);
+    public Student postMethod(@RequestBody StudentDto studentDto){
+        Student student = dtoToStudent(studentDto); // dto to student convert
+        return studentRepository.save(student);
     }
+
+    private Student dtoToStudent(StudentDto studentdto){       // DTO method
+        var student = new Student();
+        student.setFirstname(studentdto.firstname()); // used record here studentdto
+        student.setLastname(studentdto.lastname());
+        student.setEmail(studentdto.email());
+
+        var school = new School();
+        school.setSchoolid(studentdto.schoolid()); // school id from school entity
+
+        student.setSchool(school);
+        return student;
+    }
+
 
     @GetMapping("/All/students")
     public List<Student> findAllStudent(){

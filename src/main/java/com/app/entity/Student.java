@@ -1,5 +1,6 @@
 package com.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +34,8 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "school_id"
     )
+    @JsonBackReference
+    // student object doesn't need to serialize the parent which is in our case school
     private School school;
 
 }
