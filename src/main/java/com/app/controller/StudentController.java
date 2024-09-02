@@ -4,7 +4,9 @@ import com.app.dto.StudentDto;
 import com.app.dto.StudentResponseDto;
 import com.app.entity.School;
 import com.app.entity.Student;
+import com.app.mapper.StudentMapper;
 import com.app.repository.StudentRepository;
+import com.app.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +16,7 @@ import java.util.List;
 public class StudentController {
 
     @Autowired
-    private StudentRepository studentRepository ;
+    private StudentService studentService;
 
     // create end point
     @GetMapping("/")            // this is nothing but endpoint
@@ -24,73 +26,37 @@ public class StudentController {
 
     @PostMapping("/students/create")
     public StudentResponseDto postMethod(@RequestBody StudentDto studentDto){
-        Student student = dtoToStudent(studentDto);// dto to student convert
-        Student savedStudent = studentRepository.save(student);
-        return studentResponseDto(savedStudent);
+        return studentService.postMethod(studentDto);
     }
-
-    private Student dtoToStudent(StudentDto studentdto){       // DTO method
-        var student = new Student();
-        student.setFirstname(studentdto.firstname()); // used record here studentdto
-        student.setLastname(studentdto.lastname());
-        student.setEmail(studentdto.email());
-
-        var school = new School();
-        school.setSchoolid(studentdto.schoolid()); // school id from school entity
-
-        student.setSchool(school);
-        return student;
-    }
-
-    private StudentResponseDto studentResponseDto(Student student){
-        return new StudentResponseDto(
-                student.getFirstname(),
-                student.getLastname(),
-                student.getEmail()
-        );
-    }
-
-
 
     @GetMapping("/All/students")
     public List<Student> findAllStudent(){
-        return studentRepository.findAll();
-        //return all students
+        return studentService.findAllStudent();
     }
 
     @GetMapping("/students/signleStudent/{student-id}")
     public Student getSingleStudent(
             @PathVariable("student-id") Integer id
     ){
-            return studentRepository.findById(id).orElse(new Student());
-            // if student found the return student otherwise return empty student
+            return studentService.getSingleStudent(id);
     }
 
     @GetMapping("/students/{student-name}")
     public List<Student> getSingleByNameStudent(
             @PathVariable("student-name") String name
     ){
-        return studentRepository.findAllByFirstnameContaining(name);
-        // if student found the return student otherwise return empty student
+    return studentService.getSingleByNameStudent(name);
     }
 
     @DeleteMapping("/student_delete/{student-id}")
     public String deleteSingleByidStudent(
             @PathVariable("student-id") Integer id
     ){
-        studentRepository.deleteById(id);
-        return "Student is deleted";
+        return studentService.deleteSingleByidStudent(id);
     }
 
     @PutMapping("/student/update/{id}")
     public Student updateStudent(@PathVariable Integer id, @RequestBody Student student1){
-        Student student = this.studentRepository.findById(id).orElse(new Student());
-        //Student student = new Student();
-        student.setFirstname(student1.getFirstname());
-        student.setLastname(student1.getLastname());
-        student.setEmail(student1.getEmail());
-        student.setAge(student1.getAge());
-        return this.studentRepository.save(student);
+        return studentService.updateStudent(id,student1);
     }    // http://localhost:8080/studentstudent/update/2
-
 }
