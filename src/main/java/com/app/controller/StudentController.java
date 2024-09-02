@@ -30,19 +30,19 @@ public class StudentController {
     }
 
     @GetMapping("/All/students")
-    public List<Student> findAllStudent(){
+    public List<StudentResponseDto> findAllStudent(){
         return studentService.findAllStudent();
     }
 
     @GetMapping("/students/signleStudent/{student-id}")
-    public Student getSingleStudent(
+    public StudentResponseDto getSingleStudent(
             @PathVariable("student-id") Integer id
     ){
             return studentService.getSingleStudent(id);
     }
 
     @GetMapping("/students/{student-name}")
-    public List<Student> getSingleByNameStudent(
+    public List<StudentResponseDto> getSingleByNameStudent(
             @PathVariable("student-name") String name
     ){
     return studentService.getSingleByNameStudent(name);
