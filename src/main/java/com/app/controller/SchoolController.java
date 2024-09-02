@@ -1,10 +1,12 @@
 package com.app.controller;
 
+import com.app.dto.SchoolDto;
 import com.app.entity.School;
 import com.app.repository.SchoolRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class SchoolController {
@@ -16,9 +18,21 @@ public class SchoolController {
     }
 
     @PostMapping("/create")
-    public School createStudent(@RequestBody School school){
-        return this.schoolRepository.save(school);
+    public SchoolDto createStudent(@RequestBody SchoolDto schoolDto){
+        School school = DtoToSchoolEntity(schoolDto); //toSchool
+         this.schoolRepository.save(school);
+            return schoolDto;
     }    // http://localhost:8080/create
+
+    private School DtoToSchoolEntity(SchoolDto schoolDto) {
+        var school = new School();
+        school.setSchoolname(schoolDto.schoolname());
+        return school;
+    }
+
+    private  SchoolDto toSchoolDto(School school){
+        return new SchoolDto(school.getSchoolid(),school.getSchoolname());
+    }
 
     @GetMapping("/getone/{id}")
     public School getStudent(@PathVariable Integer id){
@@ -35,10 +49,12 @@ public class SchoolController {
     }    // http://localhost:8080/student-searchname/su
 
     @GetMapping("/getall")
-    public List<School> getStudentall(){
-        List<School> studentList = this.schoolRepository.findAll();
-        //Student student = new Student();
-        return studentList;
+    public List<SchoolDto> getStudentall(){
+        // List<School> studentList = this.schoolRepository.findAll();
+        return  schoolRepository.findAll()
+                .stream()
+                .map(this::toSchoolDto)
+                .collect(Collectors.toList());
     }    // http://localhost:8080/getall
 
     @PutMapping("/update/{id}")
