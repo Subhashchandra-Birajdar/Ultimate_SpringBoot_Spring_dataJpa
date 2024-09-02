@@ -7,10 +7,16 @@ import com.app.entity.Student;
 import com.app.mapper.StudentMapper;
 import com.app.repository.StudentRepository;
 import com.app.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class StudentController {
@@ -25,7 +31,7 @@ public class StudentController {
     }      // what is the context path '/' ?
 
     @PostMapping("/students/create")
-    public StudentResponseDto postMethod(@RequestBody StudentDto studentDto){
+    public StudentResponseDto postMethod(@Valid @RequestBody StudentDto studentDto){
         return studentService.postMethod(studentDto);
     }
 
@@ -56,7 +62,23 @@ public class StudentController {
     }
 
     @PutMapping("/student/update/{id}")
-    public Student updateStudent(@PathVariable Integer id, @RequestBody Student student1){
+    public Student updateStudent(@Valid @PathVariable Integer id, @RequestBody Student student1){
         return studentService.updateStudent(id,student1);
     }    // http://localhost:8080/studentstudent/update/2
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    //@ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<?> handle_method_argument_not_validException(
+            MethodArgumentNotValidException e
+    ){
+        Map errors = new HashMap<String,String>();
+        e.getBindingResult().getFieldErrors().forEach(error -> {
+            String fieldName = error.getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        // return ResponseEntity.badRequest().body(errors);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
 }
