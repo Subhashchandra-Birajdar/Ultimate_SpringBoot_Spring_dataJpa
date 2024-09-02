@@ -1,6 +1,7 @@
 package com.app.controller;
 
 import com.app.dto.StudentDto;
+import com.app.dto.StudentResponseDto;
 import com.app.entity.School;
 import com.app.entity.Student;
 import com.app.repository.StudentRepository;
@@ -22,9 +23,10 @@ public class StudentController {
     }      // what is the context path '/' ?
 
     @PostMapping("/students/create")
-    public Student postMethod(@RequestBody StudentDto studentDto){
-        Student student = dtoToStudent(studentDto); // dto to student convert
-        return studentRepository.save(student);
+    public StudentResponseDto postMethod(@RequestBody StudentDto studentDto){
+        Student student = dtoToStudent(studentDto);// dto to student convert
+        Student savedStudent = studentRepository.save(student);
+        return studentResponseDto(savedStudent);
     }
 
     private Student dtoToStudent(StudentDto studentdto){       // DTO method
@@ -39,6 +41,15 @@ public class StudentController {
         student.setSchool(school);
         return student;
     }
+
+    private StudentResponseDto studentResponseDto(Student student){
+        return new StudentResponseDto(
+                student.getFirstname(),
+                student.getLastname(),
+                student.getEmail()
+        );
+    }
+
 
 
     @GetMapping("/All/students")
