@@ -12,7 +12,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 
 class StudentServiceTest {
 
@@ -74,5 +80,82 @@ class StudentServiceTest {
         assertEquals(dto.firstname(),responseDto.firstname());
         assertEquals(dto.lastname(),responseDto.lastname());
         assertEquals(dto.email(),responseDto.email());
+
+        // if user try to save to time same record then throw exception
+        verify(studentMapper,Mockito.times(1)).dtoToStudent(dto);// dto to entity
+        verify(studentRepository,Mockito.times(1)).save(student);//saved
+        verify(studentMapper,Mockito.times(1)).studentResponseDto(savedstudent);//entity to repository
     }
+
+   // Now test for findAll
+    @Test
+    public void should_all_student(){
+        List<Student> students = new ArrayList<>();
+        Student student = new Student("john","Doe","john@gmail.com",100);
+        //mock the calls
+        Mockito.when(studentRepository.findAll()).thenReturn(students);
+        Mockito.when(studentMapper.studentResponseDto(any(Student.class)))
+                .thenReturn(new StudentResponseDto(
+                        "john","Doe","john@gmail.com")
+                );
+        //when
+        List<StudentResponseDto> responseDtos = studentService.findAllStudent();
+
+        //Then
+        assertEquals(students.size(),responseDtos.size());
+        //Mockito.verify(studentRepository,Mockito.times(1));
+    }
+
+    //Byid
+    @Test
+    public void should_return_student_by_id(){
+        Integer studentId =1;
+        Student student = new Student("john","Doe","john@gmail.com",100);
+
+        //mock the calls
+        Mockito.when(studentRepository.findById(studentId))
+                .thenReturn(Optional.of(student));
+        Mockito.when(studentMapper.studentResponseDto(any(Student.class)))
+                .thenReturn(new StudentResponseDto(
+                        "john","Doe","john@gmail.com")
+                );
+        //when
+        StudentResponseDto dto = studentService.getSingleStudent(studentId);
+
+        //then
+        assertEquals(dto.firstname(),dto.firstname());
+        assertEquals(dto.lastname(),dto.lastname());
+        assertEquals(dto.email(),dto.email());
+
+    }
+
+    //Findbyname
+    @Test
+    public void should_by_name(){
+        String studentName = "john";
+        List<Student> students = new ArrayList<>();
+        Student student = new Student(
+                "john",
+                "Doe",
+                "john@gmail.com",
+                100);
+        //mock the calls
+        Mockito.when(studentRepository.findAllByFirstnameContaining(studentName))
+                .thenReturn(students);
+        Mockito.when(studentMapper.studentResponseDto(any(Student.class)))
+                .thenReturn(new StudentResponseDto(
+                        "john",
+                        "Doe",
+                        "john@gmail.com")
+                );
+        //when
+        var responseDto = studentService.getSingleByNameStudent(studentName);
+
+        //Then
+        assertEquals(students.size(),responseDto.size());
+        verify(studentRepository,Mockito.times(1)).findAllByFirstnameContaining(studentName);
+    }
+
 }
+
+
